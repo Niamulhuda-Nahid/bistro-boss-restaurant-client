@@ -11,55 +11,68 @@ import Dashboard from "../Layout/Dashboard";
 import Cart from "../Pages/Dashboard/Cart/Cart";
 import AllUsers from "../Pages/AllUsers/AllUsers";
 import Chat from "../Pages/Chat/Chat";
+import NotificationToast from "../components/NotificationToast";
 
 export const router = createBrowserRouter([
-    {
+  {
+    path: "/",
+    element: <Main></Main>,
+    children: [
+      {
         path: "/",
-        element: <Main></Main>,
-        children: [
-            {
-                path: '/',
-                element: <Home></Home>
-            },
-            {
-                path: '/all-users',
-                element: <AllUsers></AllUsers>
-            },
-            {
-                path: '/menu',
-                element: <Menu></Menu>
-            },
-            {
-                path: '/chat/:userId',
-                element: <Chat></Chat>
-            },
-            {
-                path: '/order/:category',
-                element: <Order></Order>
-            },
-            {
-                path: '/login',
-                element: <Login></Login>
-            },
-            {
-                path: '/register',
-                element: <Register></Register>
-            },
-            {
-                path: '/secret',
-                element: <PrivateRoutes><Secret></Secret></PrivateRoutes>
-            }
-        ]
-    },
-    {
-        path: '/dashboard',
-        element: <PrivateRoutes><Dashboard></Dashboard></PrivateRoutes>,
-        children: [
-            {
-                path: 'cart',
-                element: <Cart></Cart>
-            }
-        ]
-    }
-
+        element: <Home></Home>,
+      },
+      {
+        path: "/all-users",
+        element: <AllUsers></AllUsers>,
+      },
+      {
+        path: "/menu",
+        element: <Menu></Menu>,
+      },
+      {
+        path: "/chat/:userId",
+        element: <Chat></Chat>,
+      },
+      {
+        path: "/order/:category",
+        element: <Order></Order>,
+      },
+      {
+        path: "/login",
+        element: <Login></Login>,
+      },
+      {
+        path: "/register",
+        element: <Register></Register>,
+      },
+      {
+        path: "/secret",
+        element: (
+          <PrivateRoutes>
+            <Secret></Secret>
+          </PrivateRoutes>
+        ),
+      },
+      {
+    path: "/notify",
+    element: <NotificationToast></NotificationToast>,
+  },
+    ],
+  },
+  {
+    path: "/dashboard",
+    element: (
+      <PrivateRoutes>
+        <Dashboard></Dashboard>
+      </PrivateRoutes>
+    ),
+    children: [
+      {
+        path: "cart",
+        element: <Cart></Cart>,
+      },
+    ],
+  },
+  
 ]);

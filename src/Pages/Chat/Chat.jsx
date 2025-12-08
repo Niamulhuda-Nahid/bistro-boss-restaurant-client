@@ -2,14 +2,14 @@ import { useContext, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import useAxiosPublic from "../../hooks/useAxiosPublic";
 import { AuthContext } from "../../providers/AuthProvider";
-import { io } from "socket.io-client";
-
-const socket = io("http://localhost:5000");
+import socket from "../../socket/socket";
+import { NotificationContext } from "../../providers/NotificationProvider";
 
 export default function Chat() {
   const { userId } = useParams();
   const { user } = useContext(AuthContext);
-  console.log("User ID from params:", userId);
+  const { clearNotifications } = useContext(NotificationContext);
+
   const [myId, setMyId] = useState(null);
   const axiosPublic = useAxiosPublic();
   const [messages, setMessages] = useState([]);
@@ -34,15 +34,15 @@ export default function Chat() {
     fetchCurrentUser();
   }, [user?.email, axiosPublic]);
 
-  console.log("Current User from chat:", myId);
-
+  // koin room + listen for message
   useEffect(() => {
+    if (!myId) return;
+
+    // fetch old messages
     fetch(`http://localhost:5000/messages?roomId=${roomId}`)
       .then((res) => res.json())
       .then((data) => setMessages(data));
-
-    // resister user
-    socket.emit("register", myId);
+    clearNotifications();
 
     // join the private room
     socket.emit("join_room", roomId);
@@ -54,7 +54,7 @@ export default function Chat() {
 
     // cleanup on unmount
     return () => socket.off("private_message");
-  }, [myId, roomId]);
+  }, [roomId, myId, clearNotifications]);
 
   //   scroll to bottom when messages change
   useEffect(() => {
@@ -66,6 +66,7 @@ export default function Chat() {
 
     const message = {
       from: myId,
+      to: userId,
       text: input,
       roomId: roomId,
     };
