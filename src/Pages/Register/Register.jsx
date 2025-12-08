@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import authentication1 from '../../assets/others/authentication2.png'
 import authentication from '../../assets/others/authentication.png';
 import { Link, useNavigate } from 'react-router-dom';

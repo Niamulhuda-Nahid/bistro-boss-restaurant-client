@@ -9,6 +9,8 @@ import PrivateRoutes from "./PrivateRoutes";
 import Secret from "../Pages/Shared/Secret/Secret";
 import Dashboard from "../Layout/Dashboard";
 import Cart from "../Pages/Dashboard/Cart/Cart";
+import AllUsers from "../Pages/AllUsers/AllUsers";
+import Chat from "../Pages/Chat/Chat";
 
 export const router = createBrowserRouter([
     {
@@ -20,8 +22,16 @@ export const router = createBrowserRouter([
                 element: <Home></Home>
             },
             {
+                path: '/all-users',
+                element: <AllUsers></AllUsers>
+            },
+            {
                 path: '/menu',
                 element: <Menu></Menu>
+            },
+            {
+                path: '/chat/:userId',
+                element: <Chat></Chat>
             },
             {
                 path: '/order/:category',
